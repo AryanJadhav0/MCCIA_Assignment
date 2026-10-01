@@ -1,0 +1,137 @@
+scheme,supplier_id,supplier_name,composite,rank,tier
+Baseline (35/25/15/15/10),VS12,Nutan Tubes,9.25,1,POOR
+Baseline (35/25/15/15/10),VS19,Thakur Steel,9.27,2,POOR
+Baseline (35/25/15/15/10),VS03,Tata Steel Service,10.78,3,POOR
+Baseline (35/25/15/15/10),VS17,Modern Metals,98.82,21,ACCEPTABLE
+Baseline (35/25/15/15/10),VS16,Garg Enterprises,91.24,4,ACCEPTABLE
+Baseline (35/25/15/15/10),VS11,Sai Steel,96.97,11,ACCEPTABLE
+Baseline (35/25/15/15/10),VS32,Precision Steel,99.1,23,ACCEPTABLE
+Baseline (35/25/15/15/10),VS01,Jindal Steel & Power,99.55,25,ACCEPTABLE
+Baseline (35/25/15/15/10),VS05,Bhushan Steel,99.24,24,ACCEPTABLE
+Baseline (35/25/15/15/10),VS28,Param Industries,97.8,14,ACCEPTABLE
+Baseline (35/25/15/15/10),VS04,Shyam Metalics,99.66,27,ACCEPTABLE
+Baseline (35/25/15/15/10),VS08,Ratnamani Metals,100.0,32,ACCEPTABLE
+Baseline (35/25/15/15/10),VS14,Sunrise Metals,99.56,26,ACCEPTABLE
+Baseline (35/25/15/15/10),VS06,APL Apollo Tubes,96.93,10,ACCEPTABLE
+Baseline (35/25/15/15/10),VS34,Supreme Fittings,96.34,7,ACCEPTABLE
+Baseline (35/25/15/15/10),VS31,Sunrise Alloys,97.08,13,ACCEPTABLE
+Baseline (35/25/15/15/10),VS10,Gallantt Metal,97.86,15,ACCEPTABLE
+Baseline (35/25/15/15/10),VS26,Rajdhani Steel,97.05,12,ACCEPTABLE
+Baseline (35/25/15/15/10),VS18,Kumar Hardware,96.33,6,ACCEPTABLE
+Baseline (35/25/15/15/10),VS09,MSP Steel,95.93,5,ACCEPTABLE
+Baseline (35/25/15/15/10),VS13,Radhe Alloys,98.05,17,ACCEPTABLE
+Baseline (35/25/15/15/10),VS29,Global Metals,100.0,32,ACCEPTABLE
+Baseline (35/25/15/15/10),VS33,Premium Metals,98.7,20,ACCEPTABLE
+Baseline (35/25/15/15/10),VS25,Laxmi Hardware,99.96,30,ACCEPTABLE
+Baseline (35/25/15/15/10),VS21,Viraj Profiles,100.0,32,ACCEPTABLE
+Baseline (35/25/15/15/10),VS23,Krishna Pipes,98.83,22,ACCEPTABLE
+Baseline (35/25/15/15/10),VS24,Om Metals,99.79,28,ACCEPTABLE
+Baseline (35/25/15/15/10),VS02,SAIL Distribution,100.0,32,ACCEPTABLE
+Baseline (35/25/15/15/10),VS27,National Pipes,97.92,16,ACCEPTABLE
+Baseline (35/25/15/15/10),VS30,Apex Hardware,98.28,18,ACCEPTABLE
+Baseline (35/25/15/15/10),VS20,Bhavani Metals,96.83,8,ACCEPTABLE
+Baseline (35/25/15/15/10),VS15,Western Steel,96.91,9,ACCEPTABLE
+Baseline (35/25/15/15/10),VS07,Prakash Industries,99.88,29,ACCEPTABLE
+Baseline (35/25/15/15/10),VS22,Ratan Steel,98.66,19,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS12,Nutan Tubes,4.96,1,POOR
+Short-heavy (50/20/15/10/5),VS19,Thakur Steel,5.25,2,POOR
+Short-heavy (50/20/15/10/5),VS03,Tata Steel Service,7.24,3,POOR
+Short-heavy (50/20/15/10/5),VS17,Modern Metals,99.04,20,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS16,Garg Enterprises,95.12,4,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS11,Sai Steel,98.18,9,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS32,Precision Steel,99.36,23,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS01,Jindal Steel & Power,99.61,26,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS05,Bhushan Steel,99.19,21,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS28,Param Industries,98.29,12,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS04,Shyam Metalics,99.51,25,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS08,Ratnamani Metals,100.0,32,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS14,Sunrise Metals,99.67,27,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS06,APL Apollo Tubes,98.47,15,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS34,Supreme Fittings,97.98,6,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS31,Sunrise Alloys,98.46,14,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS10,Gallantt Metal,98.55,16,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS26,Rajdhani Steel,98.0,7,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS18,Kumar Hardware,98.03,8,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS09,MSP Steel,97.97,5,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS13,Radhe Alloys,98.56,17,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS29,Global Metals,100.0,32,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS33,Premium Metals,99.35,22,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS25,Laxmi Hardware,99.98,30,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS21,Viraj Profiles,100.0,32,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS23,Krishna Pipes,99.42,24,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS24,Om Metals,99.83,28,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS02,SAIL Distribution,100.0,32,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS27,National Pipes,98.22,10,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS30,Apex Hardware,98.68,18,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS20,Bhavani Metals,98.42,13,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS15,Western Steel,98.24,11,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS07,Prakash Industries,99.84,29,ACCEPTABLE
+Short-heavy (50/20/15/10/5),VS22,Ratan Steel,98.93,19,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS12,Nutan Tubes,9.25,1,POOR
+Returns-heavy (25/15/15/35/10),VS19,Thakur Steel,11.75,2,POOR
+Returns-heavy (25/15/15/35/10),VS03,Tata Steel Service,14.05,3,POOR
+Returns-heavy (25/15/15/35/10),VS17,Modern Metals,97.62,15,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS16,Garg Enterprises,90.6,4,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS11,Sai Steel,95.92,5,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS32,Precision Steel,98.4,18,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS01,Jindal Steel & Power,99.13,23,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS05,Bhushan Steel,99.26,25,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS28,Param Industries,98.05,17,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS04,Shyam Metalics,99.76,27,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS08,Ratnamani Metals,100.0,32,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS14,Sunrise Metals,99.46,26,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS06,APL Apollo Tubes,96.93,11,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS34,Supreme Fittings,96.32,8,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS31,Sunrise Alloys,96.44,9,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS10,Gallantt Metal,97.47,14,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS26,Rajdhani Steel,97.43,13,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS18,Kumar Hardware,96.16,7,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS09,MSP Steel,95.93,6,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS13,Radhe Alloys,97.82,16,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS29,Global Metals,100.0,32,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS33,Premium Metals,98.7,20,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS25,Laxmi Hardware,99.92,29,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS21,Viraj Profiles,100.0,32,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS23,Krishna Pipes,98.83,21,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS24,Om Metals,99.87,28,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS02,SAIL Distribution,100.0,32,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS27,National Pipes,98.58,19,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS30,Apex Hardware,98.9,22,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS20,Bhavani Metals,96.83,10,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS15,Western Steel,96.97,12,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS07,Prakash Industries,99.92,29,ACCEPTABLE
+Returns-heavy (25/15/15/35/10),VS22,Ratan Steel,99.2,24,ACCEPTABLE
+Equal (20/20/20/20/20),VS12,Nutan Tubes,18.04,3,POOR
+Equal (20/20/20/20/20),VS19,Thakur Steel,16.32,2,POOR
+Equal (20/20/20/20/20),VS03,Tata Steel Service,16.16,1,POOR
+Equal (20/20/20/20/20),VS17,Modern Metals,98.6,21,ACCEPTABLE
+Equal (20/20/20/20/20),VS16,Garg Enterprises,84.46,4,WATCH
+Equal (20/20/20/20/20),VS11,Sai Steel,95.16,12,ACCEPTABLE
+Equal (20/20/20/20/20),VS32,Precision Steel,98.95,23,ACCEPTABLE
+Equal (20/20/20/20/20),VS01,Jindal Steel & Power,99.49,25,ACCEPTABLE
+Equal (20/20/20/20/20),VS05,Bhushan Steel,99.39,24,ACCEPTABLE
+Equal (20/20/20/20/20),VS28,Param Industries,98.05,19,ACCEPTABLE
+Equal (20/20/20/20/20),VS04,Shyam Metalics,99.8,27,ACCEPTABLE
+Equal (20/20/20/20/20),VS08,Ratnamani Metals,100.0,32,ACCEPTABLE
+Equal (20/20/20/20/20),VS14,Sunrise Metals,99.56,26,ACCEPTABLE
+Equal (20/20/20/20/20),VS06,APL Apollo Tubes,93.87,9,ACCEPTABLE
+Equal (20/20/20/20/20),VS34,Supreme Fittings,93.16,7,ACCEPTABLE
+Equal (20/20/20/20/20),VS31,Sunrise Alloys,94.49,11,ACCEPTABLE
+Equal (20/20/20/20/20),VS10,Gallantt Metal,96.45,14,ACCEPTABLE
+Equal (20/20/20/20/20),VS26,Rajdhani Steel,95.44,13,ACCEPTABLE
+Equal (20/20/20/20/20),VS18,Kumar Hardware,92.93,6,ACCEPTABLE
+Equal (20/20/20/20/20),VS09,MSP Steel,91.87,5,ACCEPTABLE
+Equal (20/20/20/20/20),VS13,Radhe Alloys,97.14,15,ACCEPTABLE
+Equal (20/20/20/20/20),VS29,Global Metals,100.0,32,ACCEPTABLE
+Equal (20/20/20/20/20),VS33,Premium Metals,97.4,16,ACCEPTABLE
+Equal (20/20/20/20/20),VS25,Laxmi Hardware,99.95,30,ACCEPTABLE
+Equal (20/20/20/20/20),VS21,Viraj Profiles,100.0,32,ACCEPTABLE
+Equal (20/20/20/20/20),VS23,Krishna Pipes,97.67,17,ACCEPTABLE
+Equal (20/20/20/20/20),VS24,Om Metals,99.83,28,ACCEPTABLE
+Equal (20/20/20/20/20),VS02,SAIL Distribution,100.0,32,ACCEPTABLE
+Equal (20/20/20/20/20),VS27,National Pipes,98.01,18,ACCEPTABLE
+Equal (20/20/20/20/20),VS30,Apex Hardware,98.43,20,ACCEPTABLE
+Equal (20/20/20/20/20),VS20,Bhavani Metals,93.67,8,ACCEPTABLE
+Equal (20/20/20/20/20),VS15,Western Steel,94.14,10,ACCEPTABLE
+Equal (20/20/20/20/20),VS07,Prakash Industries,99.93,29,ACCEPTABLE
+Equal (20/20/20/20/20),VS22,Ratan Steel,98.93,22,ACCEPTABLE

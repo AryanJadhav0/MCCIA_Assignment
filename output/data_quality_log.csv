@@ -1,0 +1,34 @@
+check,result,detail
+purchase_orders.po_id unique,PASS,0 duplicates
+goods_receipts.gr_id unique,PASS,0 duplicates
+goods_receipts.po_id unique,PASS,0 duplicates
+payment_records.po_id unique,PASS,0 duplicates
+customer_returns.return_id unique,PASS,0 duplicates
+supplier_master.supplier_id unique,PASS,0 duplicates
+purchase_orders no exact duplicate rows,PASS,
+goods_receipts no exact duplicate rows,PASS,
+payment_records no exact duplicate rows,PASS,
+market_price_index no exact duplicate rows,PASS,
+supplier_master no exact duplicate rows,PASS,
+PO -> receipt 1:1,PASS,
+PO -> payment 1:1,PASS,
+all PO suppliers in master,PASS,
+all units are MT,PASS,{'MT': 4800}
+supplier_id agrees PO vs payment,PASS,
+payment terms agree PO vs payment,PASS,
+receipt_date >= po_date,PASS,
+promised date >= po_date,PASS,
+received <= ordered,PASS,
+rejection_qty <= received,PASS,
+rejection_qty >=0 and days_late >=0,PASS,
+invoice = ordered qty x quoted price (within 0.01%),PASS,ratio min 1.000000 max 1.000000
+rejection rows all have a reason,PASS,424 rows with rejection_qty>0; 424 rows with a reason (not identical sets)
+paid-after-invoice check: actual_payment_date >= invoice_date,PASS,
+returns: dates inside PO window,PASS,
+returns: material exists in POs,PASS,
+returns: traced supplier in master,PASS,
+returns: missing supplier share (info),PASS,140 of 380 = 36.8% -> inference required
+PO materials inside supplier_master categories (info),PASS,"621 in-master POs, 4179 off-master (87.1%) -> tagged, not dropped"
+market index coverage (info),PASS,"1611 of 4800 POs (33.6%) matched; materials: ['ERW Pipes', 'GI Pipes', 'HR Coils', 'MS Pipes', 'MS Sheets', 'SS Pipes']"
+market index level vs PO prices (info),PASS,"median PO price is +14% vs index on covered POs -> level gap, use panel comparison as primary"
+panel baseline short % (median supplier),PASS,0.511%

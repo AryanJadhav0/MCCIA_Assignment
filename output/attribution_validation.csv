@@ -1,0 +1,10 @@
+method,top1_acc,top3_acc,logloss
+A rate x volume only (no material/date/qty),0.225,0.558,2.917
+B + material,0.224,0.55,2.904
+C + quantity band,0.225,0.558,2.906
+D + material + quantity  [CHOSEN MODEL],0.222,0.552,2.885
+E D + date proximity (W60/tau30),0.126,0.268,3.804
+F D + date proximity (W90/tau90),0.126,0.322,3.647
+G D + date proximity (W180/tau90),0.132,0.388,3.412
+Baseline: random among suppliers with a batch in 90d,0.027,0.121,16.469
+Baseline: latest receipt wins,0.04,0.217,

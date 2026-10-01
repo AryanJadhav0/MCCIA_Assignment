@@ -1,0 +1,74 @@
+supplier_id,supplier_name,category
+VS01,Jindal Steel & Power,ERW Pipes
+VS01,Jindal Steel & Power,MS Pipes
+VS01,Jindal Steel & Power,CR Sheets
+VS02,SAIL Distribution,Spring Steel
+VS02,SAIL Distribution,SS Pipes
+VS02,SAIL Distribution,GI Wire
+VS03,Tata Steel Service,Hex Bars
+VS04,Shyam Metalics,Spring Steel
+VS04,Shyam Metalics,GI Wire
+VS04,Shyam Metalics,HR Coils
+VS05,Bhushan Steel,GI Wire
+VS05,Bhushan Steel,MS Flats
+VS05,Bhushan Steel,CR Sheets
+VS06,APL Apollo Tubes,MS Rods
+VS07,Prakash Industries,Fasteners & Fittings
+VS08,Ratnamani Metals,SS Sheets
+VS08,Ratnamani Metals,Angles & Channels
+VS08,Ratnamani Metals,GI Sheets
+VS09,MSP Steel,SS Pipes
+VS09,MSP Steel,HR Coils
+VS10,Gallantt Metal,Angles & Channels
+VS10,Gallantt Metal,MS Sheets
+VS11,Sai Steel,SS Pipes
+VS11,Sai Steel,MS Sheets
+VS11,Sai Steel,HR Coils
+VS12,Nutan Tubes,Spring Steel
+VS12,Nutan Tubes,HR Coils
+VS12,Nutan Tubes,MS Flats
+VS13,Radhe Alloys,MS Rods
+VS13,Radhe Alloys,CR Sheets
+VS14,Sunrise Metals,Structural Steel
+VS15,Western Steel,HR Coils
+VS16,Garg Enterprises,MS Rods
+VS16,Garg Enterprises,Angles & Channels
+VS16,Garg Enterprises,HR Coils
+VS17,Modern Metals,ERW Pipes
+VS18,Kumar Hardware,SS Pipes
+VS18,Kumar Hardware,MS Rods
+VS18,Kumar Hardware,Hex Bars
+VS19,Thakur Steel,MS Pipes
+VS19,Thakur Steel,ERW Pipes
+VS19,Thakur Steel,CR Sheets
+VS20,Bhavani Metals,MS Sheets
+VS20,Bhavani Metals,Fasteners & Fittings
+VS21,Viraj Profiles,ERW Pipes
+VS21,Viraj Profiles,SS Sheets
+VS21,Viraj Profiles,GI Sheets
+VS22,Ratan Steel,MS Flats
+VS22,Ratan Steel,Structural Steel
+VS22,Ratan Steel,MS Pipes
+VS23,Krishna Pipes,HR Coils
+VS24,Om Metals,Spring Steel
+VS25,Laxmi Hardware,MS Sheets
+VS25,Laxmi Hardware,CR Sheets
+VS25,Laxmi Hardware,GI Wire
+VS26,Rajdhani Steel,Angles & Channels
+VS26,Rajdhani Steel,Fasteners & Fittings
+VS27,National Pipes,SS Pipes
+VS28,Param Industries,HR Coils
+VS28,Param Industries,MS Pipes
+VS28,Param Industries,SS Pipes
+VS29,Global Metals,MS Flats
+VS30,Apex Hardware,Structural Steel
+VS30,Apex Hardware,GI Sheets
+VS30,Apex Hardware,Square/Rect Tubes
+VS31,Sunrise Alloys,GI Sheets
+VS31,Sunrise Alloys,ERW Pipes
+VS32,Precision Steel,Fasteners & Fittings
+VS32,Precision Steel,GI Pipes
+VS33,Premium Metals,MS Flats
+VS33,Premium Metals,ERW Pipes
+VS33,Premium Metals,HR Coils
+VS34,Supreme Fittings,GI Wire
