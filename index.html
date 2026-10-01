@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Arora Traders — Supplier Intelligence Dashboard</title>
+<meta name="description" content="34-supplier performance scorecard and rupee impact analysis for Arora Traders."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0f1a;--surface:#111827;--surface2:#1a2235;--surface3:#243049;
+  --border:#1e2d45;--text:#e8edf5;--text2:#8897ae;--text3:#4f627a;
+  --red:#ff4757;--red-dim:#2d1219;--amber:#f59e0b;--amber-dim:#2a1f06;
+  --green:#10b981;--green-dim:#0a1f18;--blue:#3b82f6;--blue-dim:#0f1f3d;
+  --purple:#8b5cf6;--cyan:#06b6d4;--r:12px;--r2:8px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.header{background:#0d1929;border-bottom:1px solid var(--border);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{width:40px;height:40px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;color:white}
+.logo h1{font-size:18px;font-weight:700}
+.logo p{font-size:11px;color:var(--text2);margin-top:2px}
+.header-meta{display:flex;gap:10px;flex-wrap:wrap}
+.badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.5px}
+.badge-red{background:var(--red-dim);color:var(--red);border:1px solid #3d1520}
+.badge-green{background:var(--green-dim);color:var(--green);border:1px solid #0f2e22}
+.badge-blue{background:var(--blue-dim);color:var(--blue);border:1px solid #0f2040}
+.main{padding:28px 32px;max-width:1600px;margin:0 auto}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:28px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+.kpi:hover{transform:translateY(-2px);border-color:var(--surface3)}
+.kpi-label{font-size:10px;font-weight:600;color:var(--text2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.kpi-value{font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1}
+.kpi-sub{font-size:10px;color:var(--text2);margin-top:5px}
+.kpi-icon{position:absolute;right:14px;top:14px;font-size:26px;opacity:.13}
+.kpi-red .kpi-value{color:var(--red)}.kpi-amber .kpi-value{color:var(--amber)}.kpi-green .kpi-value{color:var(--green)}.kpi-blue .kpi-value{color:var(--blue)}.kpi-purple .kpi-value{color:var(--purple)}.kpi-cyan .kpi-value{color:var(--cyan)}
+.section-title{font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.charts-row-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:18px;margin-bottom:24px}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.chart-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.chart-sub{font-size:10px;color:var(--text2);margin-bottom:14px}
+.table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px}
+.table-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap}
+.table-header h2{font-size:14px;font-weight:700}
+.search-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 13px;color:var(--text);font-size:12px;font-family:inherit;outline:none;width:220px;transition:border-color .2s}
+.search-box:focus{border-color:var(--blue)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{background:var(--surface2);padding:9px 13px;text-align:left;font-size:10px;font-weight:600;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--text);background:var(--surface3)}
+th.sort-asc::after{content:' ↑';color:var(--blue)}th.sort-desc::after{content:' ↓';color:var(--blue)}
+td{padding:9px 13px;font-size:12px;border-bottom:1px solid rgba(30,45,69,.5);white-space:nowrap;vertical-align:middle}
+tr:hover td{background:var(--surface2);cursor:pointer}tr:last-child td{border-bottom:none}
+.tier-poor{color:var(--red);background:var(--red-dim);border:1px solid #3d1520;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.5px}
+.tier-acceptable{color:var(--green);background:var(--green-dim);border:1px solid #0f2e22;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.5px}
+.score-bar-wrap{display:flex;align-items:center;gap:7px}
+.score-bar{height:4px;border-radius:3px;background:var(--surface3);flex:1;overflow:hidden;min-width:50px}
+.score-bar-fill{height:100%;border-radius:3px}
+.loss-val{font-weight:700;color:var(--red)}.good-val{color:var(--green)}.warn-val{color:var(--amber)}
+.no-result{text-align:center;padding:40px;color:var(--text2);font-size:13px}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
+.drawer-overlay.open{opacity:1;pointer-events:all}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:460px;background:var(--surface);border-left:1px solid var(--border);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:26px}
+.drawer.open{transform:none}
+.drawer-close{position:absolute;right:18px;top:18px;background:var(--surface2);border:1px solid var(--border);color:var(--text);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.drawer-close:hover{background:var(--surface3)}
+.drawer-title{font-size:19px;font-weight:800;margin-bottom:3px;padding-right:40px}
+.drawer-id{font-size:11px;color:var(--text2);margin-bottom:18px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);padding:12px}
+.stat-label{font-size:9px;color:var(--text2);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
+.stat-value{font-size:18px;font-weight:800;letter-spacing:-.5px}
+.radar-wrap{height:240px;margin-bottom:18px}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(30,45,69,.5)}
+.breakdown-row:last-child{border-bottom:none}
+.breakdown-label{font-size:11px;color:var(--text2)}
+.breakdown-val{font-size:13px;font-weight:700}
+.footer{border-top:1px solid var(--border);padding:14px 32px;text-align:center;font-size:10px;color:var(--text3);margin-top:8px}
+@media(max-width:900px){.charts-row,.charts-row-3{grid-template-columns:1fr}.main{padding:14px}.drawer{width:100%}}
+.tabs{display:flex;gap:12px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px}
+.tab-btn{background:transparent;border:none;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;padding:8px 16px;border-radius:var(--r2);transition:all .2s;font-family:inherit}
+.tab-btn:hover{background:var(--surface2);color:var(--text)}
+.tab-btn.active{background:var(--blue);color:#fff}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.brief-nav{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.brief-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:var(--r2);cursor:pointer;font-weight:600;font-size:12px;transition:all .2s}
+.brief-btn:hover{background:var(--surface3)}
+.brief-btn.active{background:var(--surface);border-color:var(--blue);color:var(--blue)}
+.brief-doc{background:white;color:black;padding:40px;border-radius:8px;max-width:800px;margin:0 auto;font-family:'Times New Roman',serif}
+.brief-doc h1{font-size:24px;border-bottom:2px solid #1F3864;color:#1F3864;padding-bottom:10px;margin-bottom:20px}
+.brief-doc h2{font-size:18px;color:#1F3864;margin:20px 0 10px 0;border-bottom:1px solid #ccc;padding-bottom:5px}
+.brief-doc p{font-size:14px;line-height:1.5;margin-bottom:10px}
+.brief-doc table{width:100%;border-collapse:collapse;margin:15px 0}
+.brief-doc th{background:#1F3864;color:white;padding:8px;text-align:left;font-size:12px}
+.brief-doc td{border:1px solid #ccc;padding:8px;font-size:12px}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">AT</div>
+    <div><h1>Supplier Intelligence Dashboard</h1><p>Arora Traders, Pune &nbsp;·&nbsp; 34 Suppliers &nbsp;·&nbsp; 3-Year Analysis Oct 2023 – Oct 2026</p></div>
+  </div>
+  <div class="header-meta">
+    <span class="badge badge-red">3 POOR</span>
+    <span class="badge badge-green">31 ACCEPTABLE</span>
+    <span class="badge badge-blue">4,800 POs</span>
+  </div>
+</header>
+<main class="main">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('overview')">Dashboard Overview</button>
+    <button class="tab-btn" onclick="switchTab('scorecard')">Supplier Scorecard</button>
+    <button class="tab-btn" onclick="switchTab('briefs')">Negotiation Briefs</button>
+  </div>
+  
+  <div id="tab-overview" class="tab-content active">
+    <div class="kpi-grid" id="kpiGrid"></div>
+  <p class="section-title">Financial Impact</p>
+  <div class="charts-row-3">
+    <div class="chart-card">
+      <div class="chart-title">Top 10 Suppliers by Headline Loss (Rs L)</div>
+      <div class="chart-sub">A* + B + C + D &nbsp;·&nbsp; click bar to view detail</div>
+      <div style="position:relative;height:280px"><canvas id="lossChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Loss Composition — POOR Suppliers</div>
+      <div class="chart-sub">Stacked breakdown per supplier</div>
+      <div style="position:relative;height:280px"><canvas id="stackChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Panel Loss Breakdown</div>
+      <div class="chart-sub">All 34 suppliers combined</div>
+      <div style="position:relative;height:280px"><canvas id="donutChart"></canvas></div>
+    </div>
+  </div>
+  <p class="section-title">Trend &amp; Scorecard</p>
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Monthly Billing Gap — POOR Suppliers (Rs K)</div>
+      <div class="chart-sub">Invoice billed minus quantity received × unit price</div>
+      <div style="position:relative;height:240px"><canvas id="trendChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Composite Score Distribution — All 34 Suppliers</div>
+      <div class="chart-sub">POOR &lt; 60 · ACCEPTABLE ≥ 85 · click dot to view detail</div>
+      <div style="position:relative;height:240px"><canvas id="scatterChart"></canvas></div>
+    </div>
+  </div>
+  </div>
+  
+  <div id="tab-scorecard" class="tab-content">
+  <p class="section-title">Supplier Scorecard</p>
+  <div class="table-card">
+    <div class="table-header">
+      <h2>All 34 Suppliers — click any row for detail</h2>
+      <input class="search-box" id="searchInput" placeholder="Search supplier name or ID…" type="text"/>
+    </div>
+    <div class="table-wrap">
+      <table id="supplierTable">
+        <thead><tr>
+          <th data-col="rank">Rank</th><th data-col="id">ID</th><th data-col="name">Supplier</th>
+          <th data-col="tier">Tier</th><th data-col="composite">Score</th>
+          <th data-col="headline_loss_l">Headline Loss (L)</th><th data-col="excess_gap_l">Excess Gap (L)</th>
+          <th data-col="rejection_l">Rejection (L)</th><th data-col="confirmed_returns_l">Conf. Returns (L)</th>
+          <th data-col="short_pct">Short %</th><th data-col="avg_days_late">Avg Late (d)</th>
+          <th data-col="rejection_pct">Rej %</th><th data-col="returns_per_1000mt">Ret/1kMT</th>
+          <th data-col="billed_cr">Billed (Cr)</th>
+        </tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div id="noResult" class="no-result" style="display:none">No suppliers match your search.</div>
+    </div>
+  </div>
+  </div>
+  
+  <div id="tab-briefs" class="tab-content">
+    <div class="brief-nav" id="briefNav"></div>
+    <div id="briefContent"></div>
+  </div>
+</main>
+<footer class="footer">
+  Arora Traders Supplier Intelligence &nbsp;·&nbsp; pipeline.py → phase4_rupee_impact.py → phase2_attribution.py → phase3_scorecard.py &nbsp;·&nbsp; October 2026
+</footer>
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  <div class="drawer-title" id="dTitle"></div>
+  <div class="drawer-id" id="dSub"></div>
+  <div class="stat-grid" id="dStats"></div>
+  <p class="section-title" style="font-size:10px;margin-bottom:10px">Score Breakdown (0–100)</p>
+  <div class="radar-wrap"><canvas id="radarChart"></canvas></div>
+  <p class="section-title" style="font-size:10px;margin-bottom:10px">Loss Detail</p>
+  <div id="dBreakdown"></div>
+</div>
+<script>
+const DATA={"suppliers":[{"id":"VS12","name":"Nutan Tubes","tier":"POOR","composite":9.25,"rank":1,"po_count":147,"billed_cr":33.41,"headline_loss_l":341.7,"excess_gap_l":102.3,"rejection_l":82.3,"confirmed_returns_l":94.7,"inferred_returns_l":62.5,"p10_l":46.8,"p90_l":78.0,"short_pct":3.58,"late_pct":100.0,"avg_days_late":5.1,"rejection_pct":2.53,"returns_per_1000mt":22.16,"price_z":0.43,"price_pct":1.01,"score_short":0.0,"score_late":0.0,"score_rejection":4.5,"score_returns":0.0,"score_price":85.7,"arora_late":7.2},{"id":"VS19","name":"Thakur Steel","tier":"POOR","composite":9.27,"rank":2,"po_count":141,"billed_cr":29.65,"headline_loss_l":283.3,"excess_gap_l":90.7,"rejection_l":74.1,"confirmed_returns_l":74.5,"inferred_returns_l":44.0,"p10_l":30.3,"p90_l":57.5,"short_pct":3.57,"late_pct":100.0,"avg_days_late":5.0,"rejection_pct":2.65,"returns_per_1000mt":19.35,"price_z":1.04,"price_pct":2.33,"score_short":0.3,"score_late":2.2,"score_rejection":0.0,"score_returns":13.7,"score_price":65.3,"arora_late":6.9},{"id":"VS03","name":"Tata Steel Service","tier":"POOR","composite":10.78,"rank":3,"po_count":141,"billed_cr":29.97,"headline_loss_l":281.3,"excess_gap_l":89.0,"rejection_l":73.6,"confirmed_returns_l":73.5,"inferred_returns_l":45.1,"p10_l":31.1,"p90_l":59.7,"short_pct":3.52,"late_pct":100.0,"avg_days_late":4.8,"rejection_pct":2.59,"returns_per_1000mt":17.88,"price_z":1.54,"price_pct":3.46,"score_short":1.9,"score_late":7.0,"score_rejection":2.3,"score_returns":20.9,"score_price":48.7,"arora_late":7.4},{"id":"VS17","name":"Modern Metals","tier":"ACCEPTABLE","composite":98.82,"rank":4,"po_count":123,"billed_cr":25.82,"headline_loss_l":28.7,"excess_gap_l":0.6,"rejection_l":0.0,"confirmed_returns_l":19.9,"inferred_returns_l":8.2,"p10_l":2.2,"p90_l":15.1,"short_pct":0.53,"late_pct":75.6,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":2.95,"price_z":-0.75,"price_pct":-1.69,"score_short":99.3,"score_late":100.0,"score_rejection":100.0,"score_returns":93.7,"score_price":100.0,"arora_late":5.3},{"id":"VS16","name":"Garg Enterprises","tier":"ACCEPTABLE","composite":91.24,"rank":5,"po_count":133,"billed_cr":29.4,"headline_loss_l":27.0,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":18.0,"inferred_returns_l":9.0,"p10_l":2.2,"p90_l":16.3,"short_pct":0.48,"late_pct":77.4,"avg_days_late":1.7,"rejection_pct":0.0,"returns_per_1000mt":2.79,"price_z":2.02,"price_pct":4.51,"score_short":100.0,"score_late":95.2,"score_rejection":100.0,"score_returns":94.4,"score_price":32.7,"arora_late":6.6},{"id":"VS11","name":"Sai Steel","tier":"ACCEPTABLE","composite":96.97,"rank":6,"po_count":136,"billed_cr":26.67,"headline_loss_l":22.9,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":15.2,"inferred_returns_l":7.7,"p10_l":2.2,"p90_l":13.9,"short_pct":0.5,"late_pct":81.6,"avg_days_late":1.6,"rejection_pct":0.0,"returns_per_1000mt":2.93,"price_z":0.48,"price_pct":0.99,"score_short":100.0,"score_late":98.0,"score_rejection":100.0,"score_returns":93.8,"score_price":84.0,"arora_late":7.7},{"id":"VS32","name":"Precision Steel","tier":"ACCEPTABLE","composite":99.1,"rank":7,"po_count":148,"billed_cr":31.26,"headline_loss_l":21.9,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":13.3,"inferred_returns_l":8.6,"p10_l":2.4,"p90_l":15.5,"short_pct":0.44,"late_pct":79.7,"avg_days_late":1.6,"rejection_pct":0.0,"returns_per_1000mt":2.49,"price_z":-0.98,"price_pct":-2.05,"score_short":100.0,"score_late":98.9,"score_rejection":100.0,"score_returns":95.9,"score_price":100.0,"arora_late":8.2},{"id":"VS01","name":"Jindal Steel & Power","tier":"ACCEPTABLE","composite":99.55,"rank":8,"po_count":142,"billed_cr":30.61,"headline_loss_l":21.2,"excess_gap_l":0.1,"rejection_l":0.0,"confirmed_returns_l":14.8,"inferred_returns_l":6.3,"p10_l":1.1,"p90_l":12.2,"short_pct":0.52,"late_pct":73.9,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":2.11,"price_z":-1.5,"price_pct":-3.19,"score_short":99.7,"score_late":100.0,"score_rejection":100.0,"score_returns":97.8,"score_price":100.0,"arora_late":6.8},{"id":"VS05","name":"Bhushan Steel","tier":"ACCEPTABLE","composite":99.24,"rank":9,"po_count":137,"billed_cr":28.48,"headline_loss_l":18.7,"excess_gap_l":0.9,"rejection_l":0.0,"confirmed_returns_l":12.1,"inferred_returns_l":5.7,"p10_l":0.1,"p90_l":11.3,"short_pct":0.54,"late_pct":75.2,"avg_days_late":1.6,"rejection_pct":0.0,"returns_per_1000mt":1.84,"price_z":-1.44,"price_pct":-3.03,"score_short":99.0,"score_late":98.9,"score_rejection":100.0,"score_returns":99.1,"score_price":100.0,"arora_late":7.6},{"id":"VS28","name":"Param Industries","tier":"ACCEPTABLE","composite":97.8,"rank":10,"po_count":150,"billed_cr":29.94,"headline_loss_l":18.5,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":11.3,"inferred_returns_l":7.2,"p10_l":1.3,"p90_l":13.4,"short_pct":0.45,"late_pct":82.0,"avg_days_late":1.8,"rejection_pct":0.0,"returns_per_1000mt":2.15,"price_z":-0.74,"price_pct":-1.54,"score_short":100.0,"score_late":92.7,"score_rejection":100.0,"score_returns":97.6,"score_price":100.0,"arora_late":7.5},{"id":"VS04","name":"Shyam Metalics","tier":"ACCEPTABLE","composite":99.66,"rank":11,"po_count":125,"billed_cr":24.45,"headline_loss_l":18.0,"excess_gap_l":0.9,"rejection_l":0.0,"confirmed_returns_l":12.7,"inferred_returns_l":4.4,"p10_l":0.0,"p90_l":9.4,"short_pct":0.54,"late_pct":70.4,"avg_days_late":1.4,"rejection_pct":0.0,"returns_per_1000mt":1.58,"price_z":-1.62,"price_pct":-3.87,"score_short":99.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":100.0,"arora_late":7.0},{"id":"VS08","name":"Ratnamani Metals","tier":"ACCEPTABLE","composite":100.0,"rank":12,"po_count":171,"billed_cr":37.54,"headline_loss_l":17.9,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":12.0,"inferred_returns_l":5.9,"p10_l":0.7,"p90_l":11.9,"short_pct":0.49,"late_pct":71.9,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":1.41,"price_z":-0.45,"price_pct":-0.86,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":100.0,"arora_late":7.0},{"id":"VS14","name":"Sunrise Metals","tier":"ACCEPTABLE","composite":99.56,"rank":13,"po_count":144,"billed_cr":27.62,"headline_loss_l":16.5,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":10.6,"inferred_returns_l":5.8,"p10_l":0.4,"p90_l":11.7,"short_pct":0.47,"late_pct":79.2,"avg_days_late":1.6,"rejection_pct":0.0,"returns_per_1000mt":1.87,"price_z":-1.79,"price_pct":-3.85,"score_short":100.0,"score_late":98.9,"score_rejection":100.0,"score_returns":98.9,"score_price":100.0,"arora_late":7.7},{"id":"VS06","name":"APL Apollo Tubes","tier":"ACCEPTABLE","composite":96.93,"rank":14,"po_count":146,"billed_cr":33.74,"headline_loss_l":15.2,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":9.1,"inferred_returns_l":6.1,"p10_l":0.5,"p90_l":12.1,"short_pct":0.47,"late_pct":77.4,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":1.6,"price_z":0.92,"price_pct":1.88,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":69.3,"arora_late":7.5},{"id":"VS34","name":"Supreme Fittings","tier":"ACCEPTABLE","composite":96.34,"rank":15,"po_count":144,"billed_cr":30.37,"headline_loss_l":15.1,"excess_gap_l":0.1,"rejection_l":0.0,"confirmed_returns_l":9.3,"inferred_returns_l":5.7,"p10_l":0.3,"p90_l":11.6,"short_pct":0.52,"late_pct":74.3,"avg_days_late":1.6,"rejection_pct":0.0,"returns_per_1000mt":1.79,"price_z":0.97,"price_pct":2.19,"score_short":99.7,"score_late":99.2,"score_rejection":100.0,"score_returns":99.3,"score_price":67.7,"arora_late":8.2},{"id":"VS31","name":"Sunrise Alloys","tier":"ACCEPTABLE","composite":97.08,"rank":16,"po_count":132,"billed_cr":28.99,"headline_loss_l":15.0,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":7.7,"inferred_returns_l":7.2,"p10_l":1.5,"p90_l":13.4,"short_pct":0.47,"late_pct":70.5,"avg_days_late":1.4,"rejection_pct":0.0,"returns_per_1000mt":2.31,"price_z":0.73,"price_pct":1.6,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":96.8,"score_price":75.7,"arora_late":8.2},{"id":"VS10","name":"Gallantt Metal","tier":"ACCEPTABLE","composite":97.86,"rank":17,"po_count":149,"billed_cr":31.17,"headline_loss_l":14.4,"excess_gap_l":0.6,"rejection_l":0.0,"confirmed_returns_l":6.5,"inferred_returns_l":7.3,"p10_l":1.4,"p90_l":13.9,"short_pct":0.54,"late_pct":77.2,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":2.15,"price_z":0.43,"price_pct":0.9,"score_short":99.0,"score_late":100.0,"score_rejection":100.0,"score_returns":97.6,"score_price":85.7,"arora_late":7.1},{"id":"VS26","name":"Rajdhani Steel","tier":"ACCEPTABLE","composite":97.05,"rank":18,"po_count":155,"billed_cr":32.97,"headline_loss_l":14.3,"excess_gap_l":1.0,"rejection_l":0.0,"confirmed_returns_l":10.0,"inferred_returns_l":3.3,"p10_l":0.0,"p90_l":8.0,"short_pct":0.54,"late_pct":78.7,"avg_days_late":1.6,"rejection_pct":0.0,"returns_per_1000mt":0.84,"price_z":0.57,"price_pct":1.22,"score_short":99.0,"score_late":97.2,"score_rejection":100.0,"score_returns":100.0,"score_price":81.0,"arora_late":8.1},{"id":"VS18","name":"Kumar Hardware","tier":"ACCEPTABLE","composite":96.33,"rank":19,"po_count":132,"billed_cr":29.61,"headline_loss_l":13.7,"excess_gap_l":0.3,"rejection_l":0.0,"confirmed_returns_l":7.7,"inferred_returns_l":5.7,"p10_l":0.5,"p90_l":11.6,"short_pct":0.52,"late_pct":75.8,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":1.86,"price_z":1.02,"price_pct":2.13,"score_short":99.7,"score_late":100.0,"score_rejection":100.0,"score_returns":99.0,"score_price":66.0,"arora_late":7.0},{"id":"VS09","name":"MSP Steel","tier":"ACCEPTABLE","composite":95.93,"rank":20,"po_count":149,"billed_cr":31.29,"headline_loss_l":12.6,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":8.0,"inferred_returns_l":4.6,"p10_l":0.0,"p90_l":9.9,"short_pct":0.45,"late_pct":81.2,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":1.32,"price_z":1.22,"price_pct":2.56,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":59.3,"arora_late":7.6},{"id":"VS13","name":"Radhe Alloys","tier":"ACCEPTABLE","composite":98.05,"rank":21,"po_count":119,"billed_cr":25.79,"headline_loss_l":12.2,"excess_gap_l":1.0,"rejection_l":0.0,"confirmed_returns_l":5.4,"inferred_returns_l":5.8,"p10_l":0.2,"p90_l":11.8,"short_pct":0.54,"late_pct":69.8,"avg_days_late":1.6,"rejection_pct":0.0,"returns_per_1000mt":2.1,"price_z":0.3,"price_pct":0.7,"score_short":99.0,"score_late":98.9,"score_rejection":100.0,"score_returns":97.8,"score_price":90.0,"arora_late":7.0},{"id":"VS29","name":"Global Metals","tier":"ACCEPTABLE","composite":100.0,"rank":22,"po_count":149,"billed_cr":29.84,"headline_loss_l":11.9,"excess_gap_l":0.2,"rejection_l":0.0,"confirmed_returns_l":7.6,"inferred_returns_l":4.1,"p10_l":0.0,"p90_l":8.6,"short_pct":0.51,"late_pct":72.5,"avg_days_late":1.4,"rejection_pct":0.0,"returns_per_1000mt":1.36,"price_z":0.0,"price_pct":0.01,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":100.0,"arora_late":7.7},{"id":"VS33","name":"Premium Metals","tier":"ACCEPTABLE","composite":98.7,"rank":23,"po_count":131,"billed_cr":27.22,"headline_loss_l":11.4,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":7.0,"inferred_returns_l":4.4,"p10_l":0.0,"p90_l":9.3,"short_pct":0.49,"late_pct":81.7,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":1.46,"price_z":0.39,"price_pct":0.89,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":87.0,"arora_late":7.8},{"id":"VS25","name":"Laxmi Hardware","tier":"ACCEPTABLE","composite":99.96,"rank":24,"po_count":148,"billed_cr":31.44,"headline_loss_l":9.8,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":3.9,"inferred_returns_l":5.9,"p10_l":0.3,"p90_l":11.8,"short_pct":0.49,"late_pct":73.7,"avg_days_late":1.4,"rejection_pct":0.0,"returns_per_1000mt":1.7,"price_z":-0.26,"price_pct":-0.56,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":99.8,"score_price":100.0,"arora_late":8.4},{"id":"VS21","name":"Viraj Profiles","tier":"ACCEPTABLE","composite":100.0,"rank":25,"po_count":140,"billed_cr":29.41,"headline_loss_l":8.2,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":5.0,"inferred_returns_l":3.1,"p10_l":0.0,"p90_l":7.4,"short_pct":0.47,"late_pct":75.0,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":0.91,"price_z":-1.71,"price_pct":-3.87,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":100.0,"arora_late":7.1},{"id":"VS23","name":"Krishna Pipes","tier":"ACCEPTABLE","composite":98.83,"rank":26,"po_count":128,"billed_cr":24.77,"headline_loss_l":8.0,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":4.8,"inferred_returns_l":3.2,"p10_l":0.0,"p90_l":7.8,"short_pct":0.51,"late_pct":69.5,"avg_days_late":1.4,"rejection_pct":0.0,"returns_per_1000mt":1.13,"price_z":0.35,"price_pct":0.7,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":88.3,"arora_late":7.1},{"id":"VS24","name":"Om Metals","tier":"ACCEPTABLE","composite":99.79,"rank":27,"po_count":136,"billed_cr":27.86,"headline_loss_l":8.0,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":5.0,"inferred_returns_l":3.1,"p10_l":0.0,"p90_l":7.3,"short_pct":0.49,"late_pct":76.5,"avg_days_late":1.6,"rejection_pct":0.0,"returns_per_1000mt":0.97,"price_z":-1.15,"price_pct":-2.79,"score_short":100.0,"score_late":99.2,"score_rejection":100.0,"score_returns":100.0,"score_price":100.0,"arora_late":6.7},{"id":"VS02","name":"SAIL Distribution","tier":"ACCEPTABLE","composite":100.0,"rank":28,"po_count":142,"billed_cr":31.75,"headline_loss_l":7.4,"excess_gap_l":0.1,"rejection_l":0.0,"confirmed_returns_l":4.3,"inferred_returns_l":3.0,"p10_l":0.0,"p90_l":7.2,"short_pct":0.51,"late_pct":76.1,"avg_days_late":1.4,"rejection_pct":0.0,"returns_per_1000mt":0.85,"price_z":-0.35,"price_pct":-0.81,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":100.0,"arora_late":6.8},{"id":"VS27","name":"National Pipes","tier":"ACCEPTABLE","composite":97.92,"rank":29,"po_count":122,"billed_cr":24.95,"headline_loss_l":7.0,"excess_gap_l":0.9,"rejection_l":0.0,"confirmed_returns_l":3.0,"inferred_returns_l":3.2,"p10_l":0.0,"p90_l":7.5,"short_pct":0.54,"late_pct":82.0,"avg_days_late":1.7,"rejection_pct":0.0,"returns_per_1000mt":1.13,"price_z":0.1,"price_pct":0.24,"score_short":99.0,"score_late":94.4,"score_rejection":100.0,"score_returns":100.0,"score_price":96.7,"arora_late":7.6},{"id":"VS30","name":"Apex Hardware","tier":"ACCEPTABLE","composite":98.28,"rank":30,"po_count":153,"billed_cr":31.75,"headline_loss_l":5.8,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":3.9,"inferred_returns_l":2.0,"p10_l":0.0,"p90_l":5.3,"short_pct":0.49,"late_pct":77.8,"avg_days_late":1.8,"rejection_pct":0.0,"returns_per_1000mt":0.48,"price_z":0.05,"price_pct":0.11,"score_short":100.0,"score_late":93.8,"score_rejection":100.0,"score_returns":100.0,"score_price":98.3,"arora_late":7.6},{"id":"VS20","name":"Bhavani Metals","tier":"ACCEPTABLE","composite":96.83,"rank":31,"po_count":141,"billed_cr":31.49,"headline_loss_l":5.6,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":2.4,"inferred_returns_l":3.2,"p10_l":0.0,"p90_l":7.7,"short_pct":0.47,"late_pct":74.5,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":0.9,"price_z":0.95,"price_pct":1.98,"score_short":100.0,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":68.3,"arora_late":7.9},{"id":"VS15","name":"Western Steel","tier":"ACCEPTABLE","composite":96.91,"rank":32,"po_count":152,"billed_cr":30.3,"headline_loss_l":4.5,"excess_gap_l":0.9,"rejection_l":0.0,"confirmed_returns_l":1.9,"inferred_returns_l":1.8,"p10_l":0.0,"p90_l":5.0,"short_pct":0.53,"late_pct":68.4,"avg_days_late":1.4,"rejection_pct":0.0,"returns_per_1000mt":0.5,"price_z":0.86,"price_pct":1.9,"score_short":99.3,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":71.3,"arora_late":7.4},{"id":"VS07","name":"Prakash Industries","tier":"ACCEPTABLE","composite":99.88,"rank":33,"po_count":166,"billed_cr":32.98,"headline_loss_l":4.4,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":2.6,"inferred_returns_l":1.8,"p10_l":0.0,"p90_l":4.9,"short_pct":0.52,"late_pct":73.5,"avg_days_late":1.5,"rejection_pct":0.0,"returns_per_1000mt":0.44,"price_z":-1.31,"price_pct":-2.49,"score_short":99.7,"score_late":100.0,"score_rejection":100.0,"score_returns":100.0,"score_price":100.0,"arora_late":6.4},{"id":"VS22","name":"Ratan Steel","tier":"ACCEPTABLE","composite":98.66,"rank":34,"po_count":128,"billed_cr":26.13,"headline_loss_l":3.5,"excess_gap_l":0.0,"rejection_l":0.0,"confirmed_returns_l":1.7,"inferred_returns_l":1.8,"p10_l":0.0,"p90_l":5.0,"short_pct":0.45,"late_pct":82.8,"avg_days_late":1.7,"rejection_pct":0.0,"returns_per_1000mt":0.57,"price_z":-0.22,"price_pct":-0.48,"score_short":100.0,"score_late":94.7,"score_rejection":100.0,"score_returns":100.0,"score_price":100.0,"arora_late":7.6}],"monthly":[["2021-01","VS03",220852.75],["2021-01","VS12",348594.94],["2021-01","VS19",675622.05],["2021-02","VS03",478211.45],["2021-02","VS12",290246.29],["2021-02","VS19",55438.5],["2021-03","VS03",415596.16],["2021-03","VS12",649249.81],["2021-03","VS19",134426.18],["2021-04","VS03",109516.94],["2021-04","VS12",713767.45],["2021-04","VS19",447655.73],["2021-05","VS03",51612.77],["2021-05","VS12",126704.71],["2021-05","VS19",194318.44],["2021-06","VS03",350150.36],["2021-06","VS12",648468.48],["2021-06","VS19",5978.45],["2021-07","VS03",287690.33],["2021-07","VS19",235804.76],["2021-08","VS03",313182.69],["2021-08","VS12",254769.5],["2021-08","VS19",72459.52],["2021-09","VS03",271761.14],["2021-09","VS12",413529.27],["2021-09","VS19",220547.83],["2021-10","VS03",278215.31],["2021-10","VS12",179895.06],["2021-10","VS19",500707.74],["2021-11","VS03",108093.02],["2021-11","VS12",474834.33],["2021-11","VS19",662895.19],["2021-12","VS03",248962.77],["2021-12","VS12",458928.02],["2021-12","VS19",210327.0],["2022-01","VS03",241229.12],["2022-01","VS12",444320.22],["2022-01","VS19",307768.86],["2022-02","VS03",69705.5],["2022-02","VS12",248307.0],["2022-02","VS19",84999.02],["2022-03","VS03",313937.61],["2022-03","VS12",301319.93],["2022-03","VS19",417650.23],["2022-04","VS03",365661.06],["2022-04","VS12",375569.7],["2022-04","VS19",461879.63],["2022-05","VS03",247253.75],["2022-05","VS12",604751.44],["2022-05","VS19",646572.94],["2022-06","VS03",569661.45],["2022-06","VS12",216258.06],["2022-06","VS19",227992.16],["2022-07","VS03",364303.91],["2022-07","VS12",215440.3],["2022-07","VS19",633242.61],["2022-08","VS03",134990.68],["2022-08","VS12",891145.55],["2022-08","VS19",367950.22],["2022-09","VS03",260450.03],["2022-09","VS12",161200.57],["2022-09","VS19",183163.01],["2022-10","VS03",547916.39],["2022-10","VS19",126894.87],["2022-11","VS03",238165.4],["2022-11","VS12",238096.43],["2022-11","VS19",131436.73],["2022-12","VS12",139037.08],["2022-12","VS19",160741.91],["2023-01","VS03",381548.13],["2023-01","VS12",485700.33],["2023-01","VS19",497710.73],["2023-02","VS03",252088.84],["2023-02","VS12",648434.8],["2023-02","VS19",75809.79],["2023-03","VS03",198789.7],["2023-03","VS12",367183.49],["2023-03","VS19",300138.32],["2023-04","VS03",257886.0],["2023-04","VS12",169121.94],["2023-04","VS19",153470.83],["2023-05","VS03",483826.56],["2023-05","VS12",474633.33],["2023-05","VS19",183452.8],["2023-06","VS03",432572.15],["2023-06","VS12",199073.7],["2023-06","VS19",275676.1],["2023-07","VS03",320158.13],["2023-07","VS12",84966.29],["2023-07","VS19",268286.71],["2023-08","VS03",351761.28],["2023-08","VS12",176061.39],["2023-08","VS19",125324.21],["2023-09","VS03",194029.23],["2023-09","VS12",50698.22],["2023-09","VS19",510638.81],["2023-10","VS03",162646.79],["2023-10","VS12",421414.35],["2023-10","VS19",195168.91],["2023-11","VS03",293283.03],["2023-11","VS12",65269.29],["2023-11","VS19",359660.99],["2023-12","VS03",618798.23],["2023-12","VS12",397614.54],["2023-12","VS19",477770.64]],"panel":{"total_billed_cr":1008.6,"total_gap_l":787.0,"total_excess_l":289.0,"total_rejection_l":230.0,"total_confirmed_l":499.0,"total_inferred_l":307.0,"total_headline_l":1326.0,"po_count":4800,"supplier_count":34,"poor_count":3,"off_master_pct":87.1}};
+const S=DATA.suppliers,P=DATA.panel;
+
+// KPI Cards
+const kpis=[
+  {label:'Total Billed (3 yr)',value:`₹${P.total_billed_cr} Cr`,sub:'34 suppliers · 4,800 POs',cls:'kpi-blue',icon:''},
+  {label:'Headline Loss',value:`₹${P.total_headline_l.toLocaleString()} L`,sub:'A* + B + C + D',cls:'kpi-red',icon:''},
+  {label:'POOR Suppliers',value:'3 / 34',sub:'VS12 · VS19 · VS03',cls:'kpi-red',icon:''},
+  {label:'Excess Billing Gap',value:`₹${P.total_excess_l} L`,sub:'Above panel baseline (0.51%)',cls:'kpi-amber',icon:''},
+  {label:'Rejection Losses',value:`₹${P.total_rejection_l} L`,sub:'Rejected goods · billed in full',cls:'kpi-amber',icon:''},
+  {label:'Confirmed Returns',value:`₹${P.total_confirmed_l} L`,sub:'240 traced batches',cls:'kpi-purple',icon:''},
+  {label:'Inferred Returns',value:`₹${P.total_inferred_l} L`,sub:'140 inferred · probability-weighted',cls:'kpi-cyan',icon:''},
+  {label:'Off-Master POs',value:'87.1%',sub:'4,179 of 4,800 POs unregistered',cls:'kpi-amber',icon:''},
+];
+document.getElementById('kpiGrid').innerHTML=kpis.map(k=>`<div class="kpi ${k.cls}"><div class="kpi-label">${k.label}</div><div class="kpi-value">${k.value}</div><div class="kpi-sub">${k.sub}</div></div>`).join('');
+
+// Chart defaults
+Chart.defaults.color='#8897ae';Chart.defaults.font.family='Inter';Chart.defaults.font.size=11;
+const gc='rgba(30,45,69,0.8)';
+
+// Loss bar chart
+const top10=[...S].sort((a,b)=>b.headline_loss_l-a.headline_loss_l).slice(0,10);
+const lossChart=new Chart(document.getElementById('lossChart'),{type:'bar',data:{labels:top10.map(s=>s.name),datasets:[{label:'Headline Loss (L)',data:top10.map(s=>s.headline_loss_l),backgroundColor:top10.map(s=>s.tier==='POOR'?'rgba(255,71,87,0.85)':'rgba(59,130,246,0.7)'),borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`₹ ${c.raw} L`}}},scales:{x:{grid:{color:gc},ticks:{callback:v=>`₹${v}L`}},y:{grid:{display:false},ticks:{font:{size:10}}}},onClick:(e,els)=>{if(els.length)openDrawer(top10[els[0].index])}}});
+
+// Stacked bar
+const poor=S.filter(s=>s.tier==='POOR');
+new Chart(document.getElementById('stackChart'),{type:'bar',data:{labels:poor.map(s=>s.name),datasets:[{label:'Excess Gap (A*)',data:poor.map(s=>s.excess_gap_l),backgroundColor:'rgba(245,158,11,0.85)',borderRadius:4},{label:'Rejection (B)',data:poor.map(s=>s.rejection_l),backgroundColor:'rgba(239,68,68,0.85)',borderRadius:4},{label:'Conf. Returns (C)',data:poor.map(s=>s.confirmed_returns_l),backgroundColor:'rgba(139,92,246,0.85)',borderRadius:4},{label:'Inf. Returns (D)',data:poor.map(s=>s.inferred_returns_l),backgroundColor:'rgba(6,182,212,0.55)',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,padding:6,font:{size:10}}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:gc},ticks:{callback:v=>`₹${v}L`}}}}});
+
+// Donut
+new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{labels:['Excess (A*)','Rejection (B)','Conf. Returns (C)','Inf. Returns (D)'],datasets:[{data:[P.total_excess_l,P.total_rejection_l,P.total_confirmed_l,P.total_inferred_l],backgroundColor:['rgba(245,158,11,0.85)','rgba(239,68,68,0.85)','rgba(139,92,246,0.85)','rgba(6,182,212,0.6)'],borderColor:'#111827',borderWidth:2,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'bottom',labels:{boxWidth:9,padding:6,font:{size:10}}},tooltip:{callbacks:{label:c=>`₹${c.raw}L (${(c.raw/P.total_headline_l*100).toFixed(1)}%)`}}}}});
+
+// Trend
+const months=[...new Set(DATA.monthly.map(r=>r[0]))].sort();
+function mfor(sid){return months.map(m=>{const r=DATA.monthly.find(r=>r[0]===m&&r[1]===sid);return r?Math.round(r[2]/1000):0});}
+new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:months,datasets:[{label:'VS12 Nutan Tubes',data:mfor('VS12'),borderColor:'#ff4757',backgroundColor:'rgba(255,71,87,0.07)',fill:true,tension:0.4,pointRadius:2,pointHoverRadius:5,borderWidth:2},{label:'VS19 Thakur Steel',data:mfor('VS19'),borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.05)',fill:true,tension:0.4,pointRadius:2,pointHoverRadius:5,borderWidth:2},{label:'VS03 Tata Steel',data:mfor('VS03'),borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.05)',fill:true,tension:0.4,pointRadius:2,pointHoverRadius:5,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,padding:6,font:{size:10}}}},scales:{x:{grid:{color:gc},ticks:{maxTicksLimit:12,maxRotation:45,font:{size:9}}},y:{grid:{color:gc},ticks:{callback:v=>`₹${v}K`}}}}});
+
+// Scatter
+const scatterChart=new Chart(document.getElementById('scatterChart'),{type:'scatter',data:{datasets:[{label:'POOR',data:S.filter(s=>s.tier==='POOR').map(s=>({x:s.rank,y:s.composite,s})),backgroundColor:'rgba(255,71,87,0.9)',pointRadius:8,pointHoverRadius:11},{label:'ACCEPTABLE',data:S.filter(s=>s.tier==='ACCEPTABLE').map(s=>({x:s.rank,y:s.composite,s})),backgroundColor:'rgba(16,185,129,0.6)',pointRadius:5,pointHoverRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:9,padding:6,font:{size:10}}},tooltip:{callbacks:{label:ctx=>`${ctx.raw.s.name}: ${ctx.raw.s.composite.toFixed(1)}`}}},scales:{x:{title:{display:true,text:'Rank (1=worst)',font:{size:10}},grid:{color:gc}},y:{title:{display:true,text:'Composite Score',font:{size:10}},grid:{color:gc},min:0,max:105}},onClick:(e,els)=>{if(els.length){const pt=els[0];openDrawer(scatterChart.data.datasets[pt.datasetIndex].data[pt.index].s);}}}});
+
+// Table
+let sortCol='rank',sortDir=1,filterQ='';
+function renderTable(){
+  let rows=[...S];
+  if(filterQ){const q=filterQ.toLowerCase();rows=rows.filter(s=>s.name.toLowerCase().includes(q)||s.id.toLowerCase().includes(q));}
+  rows.sort((a,b)=>{let av=a[sortCol],bv=b[sortCol];return typeof av==='string'?sortDir*av.localeCompare(bv):sortDir*(av-bv);});
+  const body=document.getElementById('tableBody');
+  document.getElementById('noResult').style.display=rows.length?'none':'block';
+  if(!rows.length){body.innerHTML='';return;}
+  const sc=v=>v>=85?'#10b981':v>=60?'#f59e0b':'#ff4757';
+  body.innerHTML=rows.map(s=>`<tr onclick="openDrawer(DATA.suppliers.find(x=>x.id==='${s.id}'))">
+    <td>${s.rank}</td>
+    <td style="font-weight:600;color:#8b5cf6">${s.id}</td>
+    <td style="font-weight:600">${s.name}</td>
+    <td><span class="${s.tier==='POOR'?'tier-poor':'tier-acceptable'}">${s.tier}</span></td>
+    <td><div class="score-bar-wrap"><span style="font-weight:700;min-width:34px;color:${sc(s.composite)}">${s.composite.toFixed(1)}</span><div class="score-bar"><div class="score-bar-fill" style="width:${s.composite}%;background:${sc(s.composite)}"></div></div></div></td>
+    <td class="${s.tier==='POOR'?'loss-val':s.headline_loss_l>15?'warn-val':'good-val'}">₹${s.headline_loss_l}L</td>
+    <td>${s.excess_gap_l>0?`₹${s.excess_gap_l}L`:'-'}</td>
+    <td>${s.rejection_l>0?`₹${s.rejection_l}L`:'-'}</td>
+    <td>₹${s.confirmed_returns_l}L</td>
+    <td class="${s.short_pct>1?'warn-val':''}">${s.short_pct}%</td>
+    <td class="${s.avg_days_late>3?'loss-val':''}">${s.avg_days_late}d</td>
+    <td>${s.rejection_pct>0?`<span class="warn-val">${s.rejection_pct}%</span>`:'-'}</td>
+    <td class="${s.returns_per_1000mt>5?'loss-val':''}">${s.returns_per_1000mt}</td>
+    <td>₹${s.billed_cr}Cr</td>
+  </tr>`).join('');
+  document.querySelectorAll('th').forEach(th=>{th.classList.remove('sort-asc','sort-desc');if(th.dataset.col===sortCol)th.classList.add(sortDir===1?'sort-asc':'sort-desc');});
+}
+document.querySelectorAll('th[data-col]').forEach(th=>th.addEventListener('click',()=>{sortCol===th.dataset.col?sortDir*=-1:(sortCol=th.dataset.col,sortDir=1);renderTable();}));
+document.getElementById('searchInput').addEventListener('input',e=>{filterQ=e.target.value;renderTable();});
+renderTable();
+
+// Drawer
+let radarInst=null;
+function openDrawer(s){
+  const tc=s.tier==='POOR'?'#ff4757':'#10b981';
+  document.getElementById('dTitle').textContent=s.name;
+  document.getElementById('dTitle').style.color=tc;
+  document.getElementById('dSub').textContent=`${s.id} · Rank #${s.rank} of 34 · ${s.tier} · ${s.po_count} POs`;
+  document.getElementById('dStats').innerHTML=[
+    {l:'Headline Loss',v:`₹${s.headline_loss_l}L`,c:s.tier==='POOR'?'#ff4757':'#e8edf5'},
+    {l:'Billed (3 yr)',v:`₹${s.billed_cr}Cr`,c:''},
+    {l:'Composite Score',v:s.composite.toFixed(1),c:s.composite<60?'#ff4757':s.composite<85?'#f59e0b':'#10b981'},
+    {l:'Short Delivery',v:`${s.short_pct}%`,c:s.short_pct>1?'#f59e0b':''},
+    {l:'Avg Days Late',v:`${s.avg_days_late}d`,c:s.avg_days_late>3?'#ff4757':''},
+    {l:'Rejection %',v:s.rejection_pct>0?`${s.rejection_pct}%`:'None',c:s.rejection_pct>0?'#f59e0b':'#10b981'},
+    {l:'Returns/1000MT',v:s.returns_per_1000mt,c:s.returns_per_1000mt>5?'#ff4757':''},
+    {l:'Price vs Panel',v:`${s.price_pct>0?'+':''}${s.price_pct}% (z=${s.price_z})`,c:''},
+    {l:'Arora Pays Late',v:`${s.arora_late}d avg`,c:'#8897ae'},
+    {l:'Late POs',v:`${s.late_pct}%`,c:s.late_pct===100?'#ff4757':s.late_pct>80?'#f59e0b':''},
+  ].map(x=>`<div class="stat"><div class="stat-label">${x.l}</div><div class="stat-value" style="color:${x.c||'#e8edf5'}">${x.v}</div></div>`).join('');
+  if(radarInst)radarInst.destroy();
+  radarInst=new Chart(document.getElementById('radarChart'),{type:'radar',data:{labels:['Short Delivery','Delivery Speed','Rejection','Returns','Price'],datasets:[{label:s.name,data:[s.score_short,s.score_late,s.score_rejection,s.score_returns,s.score_price],backgroundColor:'rgba(59,130,246,0.15)',borderColor:'rgba(59,130,246,0.8)',pointBackgroundColor:'#3b82f6',pointRadius:4,borderWidth:2},{label:'Panel ideal',data:[100,100,100,100,100],backgroundColor:'rgba(16,185,129,0.04)',borderColor:'rgba(16,185,129,0.2)',borderDash:[4,4],pointRadius:0,borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:100,ticks:{stepSize:25,font:{size:9}},pointLabels:{font:{size:10}},grid:{color:'rgba(30,45,69,0.8)'},angleLines:{color:'rgba(30,45,69,0.8)'}}}}});
+  document.getElementById('dBreakdown').innerHTML=[
+    {l:'Excess Gap (A*)',v:`₹${s.excess_gap_l}L`,n:'Short-billing above panel baseline 0.51%'},
+    {l:'Rejection Loss (B)',v:`₹${s.rejection_l}L`,n:'Rejected MT × quoted price'},
+    {l:'Confirmed Returns (C)',v:`₹${s.confirmed_returns_l}L`,n:'Traced batches, capped per PO'},
+    {l:'Inferred Returns (D)',v:`₹${s.inferred_returns_l}L`,n:`80% range: ₹${s.p10_l}L – ₹${s.p90_l}L`},
+    {l:'HEADLINE TOTAL',v:`₹${s.headline_loss_l}L`,n:'A*+B+C+D',bold:true},
+  ].map(r=>`<div class="breakdown-row"><div><div class="breakdown-label" style="${r.bold?'font-weight:700;color:#e8edf5':''}">${r.l}</div><div style="font-size:10px;color:#4f627a;margin-top:2px">${r.n}</div></div><div class="breakdown-val" style="${r.bold?'color:#ff4757':''}">${r.v}</div></div>`).join('');
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+
+// Tab switching
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+// Render Briefs
+const top5_underperf = ["VS12", "VS19", "VS03", "VS17", "VS16"];
+const bNav = document.getElementById('briefNav');
+top5_underperf.forEach((sid, idx) => {
+  const bBtn = document.createElement('button');
+  bBtn.className = 'brief-btn' + (idx===0?' active':'');
+  const sData = S.find(x => x.id === sid);
+  bBtn.textContent = sData ? sData.name : sid;
+  bBtn.onclick = (e) => {
+    document.querySelectorAll('.brief-btn').forEach(b=>b.classList.remove('active'));
+    e.target.classList.add('active');
+    renderBrief(sid);
+  };
+  bNav.appendChild(bBtn);
+});
+
+function renderBrief(sid) {
+  const s = S.find(x => x.id === sid);
+  if(!s) return;
+  const html = `
+    <div class="brief-doc">
+      <h1>Negotiation Brief: ${s.name} (${s.id})</h1>
+      <p><strong>Tier:</strong> ${s.tier} | <strong>Rank:</strong> #${s.rank} of 34</p>
+      <p><strong>Total Billed (3yr):</strong> ₹${s.billed_cr} Cr | <strong>PO Count:</strong> ${s.po_count}</p>
+      
+      <h2>Financial Impact Summary</h2>
+      <table>
+        <tr><th>Impact Area</th><th>Loss Value</th><th>Notes</th></tr>
+        <tr><td>Headline Loss Total</td><td><strong>₹${s.headline_loss_l} Lakhs</strong></td><td>Total value lost due to supplier inefficiencies.</td></tr>
+        <tr><td>Excess Billing Gap (A*)</td><td>₹${s.excess_gap_l} Lakhs</td><td>Short-billing gap beyond acceptable baseline.</td></tr>
+        <tr><td>Rejection Loss (B)</td><td>₹${s.rejection_l} Lakhs</td><td>Rejected material billed and paid for.</td></tr>
+        <tr><td>Confirmed Returns (C)</td><td>₹${s.confirmed_returns_l} Lakhs</td><td>Directly traced returned batches.</td></tr>
+        <tr><td>Inferred Returns (D)</td><td>₹${s.inferred_returns_l} Lakhs</td><td>Probabilistic value of likely untraced returns.</td></tr>
+      </table>
+
+      <h2>Operational Performance</h2>
+      <ul>
+        <li><strong>Composite Score:</strong> ${s.composite.toFixed(1)} / 100</li>
+        <li><strong>Short Delivery Rate:</strong> ${s.short_pct}%</li>
+        <li><strong>Avg Days Late:</strong> ${s.avg_days_late} days (${s.late_pct}% of POs late)</li>
+        <li><strong>Rejection Rate:</strong> ${s.rejection_pct}%</li>
+        <li><strong>Returns Frequency:</strong> ${s.returns_per_1000mt} per 1000 MT</li>
+        <li><strong>Pricing vs Panel:</strong> ${s.price_pct>0?'+':''}${s.price_pct}% (z=${s.price_z})</li>
+      </ul>
+
+      <h2>Recommended Action Plan (Internal)</h2>
+      <p>1. Confront supplier with ₹${s.headline_loss_l}L aggregate loss data.</p>
+      <p>2. Enforce strict quantity reconciliation and quality checks before invoice clearance.</p>
+      <p>3. Negotiate ${s.price_pct>0 ? s.price_pct + '% price reduction to match panel averages' : 'service level agreements focusing on delivery reliability'}.</p>
+      <p>4. Monitor for next 90 days. Failure to improve should result in vendor delisting.</p>
+
+      <h2>Further Action Plan Required from Supplier</h2>
+      <ul>
+        <li><strong>Immediate Rectification:</strong> Acknowledge the ₹${s.headline_loss_l}L loss and propose immediate process fixes within 7 days.</li>
+        <li><strong>Quality & Dispatch Audit:</strong> Implement secondary outbound checks before dispatch to eliminate the ${s.short_pct}% short-delivery rate.</li>
+        <li><strong>Delivery Compliance:</strong> Commit to achieving >95% on-time delivery (currently averaging ${s.avg_days_late} days late).</li>
+        <li><strong>Pricing Adjustment:</strong> Re-align future price quotations to remain competitive with the established panel baseline.</li>
+      </ul>
+    </div>
+  `;
+  document.getElementById('briefContent').innerHTML = html;
+}
+if (top5_underperf.length) renderBrief(top5_underperf[0]);
+
+</script>
+</body>
+</html>
